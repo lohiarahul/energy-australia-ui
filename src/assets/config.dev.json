@@ -1,0 +1,4 @@
+{
+  "apiServer": "http://localhost:65143/api/v",
+  "versionNumber" : "1.0"
+}
