@@ -1,8 +1,7 @@
-<div *ngFor="let show of carShows">
-  <div *ngFor="let car of show.cars; let i=index;">
-    <span> {{show.cars[i].make}}</span><br />
-    <span style="padding-left:3em"> {{show.cars[i].model}}</span><br />
-    <span style="padding-left:6em"> {{show.name}}</span><br />
-    <br/>
-  </div>
+
+  <div *ngFor="let record of flattenedData; let i=index;">
+    <span> {{record.make}}</span><br />
+    <span style="padding-left:3em"> {{record.model}}</span><br />
+    <span style="padding-left:6em"> {{record.name}}</span><br />
+    <br />
 </div>

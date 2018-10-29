@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { CarshowService } from 'src/app/services/carshow.service';
 import { Carshow } from 'src/app/models/carshow';
 import { map } from 'rxjs/operators';
-import { _ } from 'underscore';
+import { CarshowVM } from 'src/app/models/carshowVM';
+import * as _ from 'underscore';
 
 @Component({
   selector: 'app-carshow',
@@ -14,6 +15,9 @@ import { _ } from 'underscore';
 
 export class CarshowComponent implements OnInit {
   carShows: Carshow[];
+  flattenedData = CarshowVM[10];
+  displayIndex = 0;
+
   compareFn: any;
   constructor(private carShowService: CarshowService) {
     this.compareFn = (a, b) => {
@@ -25,13 +29,22 @@ export class CarshowComponent implements OnInit {
 
   ngOnInit() {
     this.carShowService.getCarShows().pipe(
-
-
     ).subscribe((carShows) => {
-      // _.sortBy(carShows, (show) => show.car.)
-
-      // Could use a central RxJs based data store as a single source of truth
       this.carShows = carShows;
+
+      // Single liner solution to creating display data
+      // this.displayData = [].concat(...this.carShows.map(entry => entry.cars.map(cars => ({ ...{ name: entry.name }, ...cars }))));
+
+      // Create display data
+      this.flattenedData = this.carShows.reduce((acc, curr) => {
+        acc.push(...curr.cars.map(c => Object.assign({ name: curr.name }, c)));
+        return acc as CarshowVM[];
+      }, []);
+
+      // Sorting should automatically out the identical makes together for display
+      this.flattenedData = _.sortBy(this.flattenedData, 'make');
+
+
     },
       (error) => {
         // Could forward to a global event handler

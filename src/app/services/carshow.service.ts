@@ -10,7 +10,7 @@ export class CarshowService {
   constructor(private httpClient: HttpClient) { }
 
   public getCarShows() {
-    return this.httpClient.get<Carshow[]>('/carshows');
+    return this.httpClient.get<Carshow[]>('/cars');
 
   }
 }
